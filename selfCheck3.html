@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿵쿵따</title>
+</head>
+<body>
+    <div><span id="order">1</span>번째 참가자</div>
+    <div>제시어: <span id="word"></span></div>
+    <input type="text">
+    <button>입력</button>
+
+    <script>
+        const number = parseInt(prompt('쿵쿵따 인원을 입력해주세요:'), 10);
+        const input = document.querySelector('input');
+        const btn1 = document.querySelector('button');
+        const Wword = document.querySelector('#word');
+        const order = document.querySelector('#order');
+
+        let word; // 제시어
+        let inputWord; // 입력 단어
+        let count; // 참가자 수 카운트
+
+        const onClickButton = () => {
+            if (!word || (word[word.length - 1] === inputWord[0] && inputWord.length === 3)){ // 첫번쨰 참가자 조건
+                word = inputWord;
+                Wword.textContent = word;
+                input.value = '';
+                input.focus();
+                count = parseInt(order.textContent);
+                if (count === number) {
+                    order.textContent = 1;
+                } else {
+                    order.textContent = count+1;
+                }
+                
+            } else { 
+                    alert('올바른 3글자를 입력해주세요:');
+                    input.value = '';
+                }   
+        };
+
+        const onIuput = (e) => {
+            inputWord = e.target.value;
+        };
+
+        input.addEventListener('input', onIuput);
+        btn1.addEventListener('click', onClickButton);
+    </script>
+</body>
+</html>
