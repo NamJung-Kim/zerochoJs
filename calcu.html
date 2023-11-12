@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {box-sizing: border-box;}
+        #result {
+            width: 180px;
+            height: 50px;
+            margin: 5px;
+            text-align: right;
+        }
+        #operator {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            text-align: center;
+        }
+        button {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <input readonly id="operator">
+    <input readonly type="text" id="result">
+    <div class="row">
+        <button id="num-7">7</button>
+        <button id="num-8">8</button>
+        <button id="num-9">9</button>
+        <button id="plus">+</button>
+    </div>
+    <div class="row">
+        <button id="num-4">4</button>
+        <button id="num-5">5</button>
+        <button id="num-6">6</button>
+        <button id="minus">-</button>
+    </div>
+    <div class="row">
+        <button id="num-1">1</button>
+        <button id="num-2">2</button>
+        <button id="num-3">3</button>
+        <button id="divide">/</button>
+    </div>
+    <div class="row">
+        <button id="reset">C</button>
+        <button id="num-0">0</button>
+        <button id="calculate">=</button>
+        <button id="multiply">X</button>
+    </div>
+    <script>
+        let num1 = '';
+        let num2 = '';
+        let operator = '';
+        const operatorT = document.querySelector('#operator');
+        const resultT = document.querySelector('#result');
+        const onClickNumber = (num) => () => { // 고차함수 (high order fun)
+            if (!operator) {
+                num1 += num;
+                resultT.value += num;
+                return;
+            } 
+            if (!num2) {
+                resultT.value = '';
+            }
+            num2 += num; // 10 11 이런 숫자를 위해서 변수에 더해준다. 문자형으로 해야 11 이어짐.
+            resultT.value += num;
+         
+        };
+
+        const onClickOperator = (op) => () => { 
+            if (!num1 && op === '-') {
+                num1 += op;
+                resultT.value += op;
+            } else {
+                operator = op;
+                operatorT.value = op;
+                if (num2) {
+                    if (operator === '+') {
+                        resultT.value = parseInt(num1) + parseInt(num2);
+                    }
+
+                    if (operator === '-') {
+                        resultT.value = parseInt(num1) - parseInt(num2);
+                    }
+
+                    if (operator === '*') {
+                        resultT.value = parseInt(num1) * parseInt(num2);
+                    }
+
+                    if (operator === '/') {
+                        resultT.value = parseInt(num1) / parseInt(num2);
+                    }
+                    num1 = resultT.value;
+                    num2 = '';
+                }
+            }
+        };
+
+        const onClickCalculate = () => {
+            if (!num2) {
+                alert('숫자를 먼저 입력하세요:');
+                return;
+            };
+            if (operator === '+') {
+                resultT.value = parseInt(num1) + parseInt(num2);
+                
+            }
+
+            if (operator === '-') {
+                resultT.value = parseInt(num1) - parseInt(num2);
+            }
+
+            if (operator === '*') {
+                   resultT.value = parseInt(num1) * parseInt(num2);
+            }
+
+            if (operator === '/') {
+                resultT.value = parseInt(num1) / parseInt(num2);
+            }
+            num1 = resultT.value;
+            num2 = '';
+        };
+
+        document.querySelector('#num-0').addEventListener('click', onClickNumber('0'));
+        document.querySelector('#num-1').addEventListener('click', onClickNumber('1'));document.querySelector('#num-2').addEventListener('click', onClickNumber('2'));document.querySelector('#num-3').addEventListener('click', onClickNumber('3'));
+        document.querySelector('#num-4').addEventListener('click', onClickNumber('4'));
+        document.querySelector('#num-5').addEventListener('click', onClickNumber('5'));
+        document.querySelector('#num-6').addEventListener('click', onClickNumber('6'));
+        document.querySelector('#num-7').addEventListener('click', onClickNumber('7'));
+        document.querySelector('#num-8').addEventListener('click', onClickNumber('8'));
+        document.querySelector('#num-9').addEventListener('click', onClickNumber('9'));
+        document.querySelector('#plus').addEventListener('click', onClickOperator('+'));
+        document.querySelector('#minus').addEventListener('click', onClickOperator('-'));
+        document.querySelector('#divide').addEventListener('click', onClickOperator('/'));
+        document.querySelector('#multiply').addEventListener('click', onClickOperator('*'));
+        document.querySelector('#calculate').addEventListener('click', onClickCalculate);
+        document.querySelector('#reset').addEventListener('click', () => {
+            num1 = '';
+            num2 = '';
+            operator = '';
+            operatorT.value = '';
+            resultT.value = '';
+        });
+
+    </script>
+</body>
+</html>
